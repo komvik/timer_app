@@ -6,6 +6,7 @@ void main() {
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
+  final sTsTcL = "Anfang";
 
   @override
   Widget build(BuildContext context) {
@@ -62,4 +63,16 @@ class MainApp extends StatelessWidget {
       ),
     );
   }
+}
+
+String? timeFunction(int sTsTcL) {
+  switch (sTsTcL) {
+    case 0:
+      return "Start";
+    case 1:
+      return "Stop";
+    case 2:
+      return "Clear";
+  }
+  return null;
 }
