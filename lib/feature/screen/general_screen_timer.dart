@@ -11,24 +11,18 @@ class GeneralScreenTimer extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
                 '15',
-                style: TextStyle(
-                    fontSize: 50,
-                    color: Color.fromARGB(255, 3, 31, 72),
-                    fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.displayLarge,
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Text(
                 's',
-                style: TextStyle(
-                    fontSize: 50,
-                    color: Color.fromARGB(255, 3, 31, 72),
-                    fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.displayLarge,
               ),
             ],
           ),

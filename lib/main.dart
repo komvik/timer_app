@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:timer_app/config/colors.dart';
+import 'package:timer_app/config/theme.dart';
 import 'package:timer_app/feature/screen/general_screen_timer.dart';
 
 void main() {
@@ -12,10 +14,11 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: myTheme,
       home: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 249, 223, 143),
+        backgroundColor: bgcolor,
         appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 249, 223, 143),
+          backgroundColor: bgcolor,
           title: Text(
             sTsTcL,
             style: const TextStyle(
