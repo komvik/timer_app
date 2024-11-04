@@ -6,12 +6,21 @@ void main() {
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
-  final sTsTcL = "Anfang";
+  final sTsTcL = " Programm Timer";
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            sTsTcL,
+            style: const TextStyle(
+                fontSize: 18,
+                color: Color.fromARGB(255, 3, 31, 72),
+                fontWeight: FontWeight.bold),
+          ),
+        ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
