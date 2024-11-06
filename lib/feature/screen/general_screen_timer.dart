@@ -10,15 +10,29 @@ class GeneralScreenTimer extends StatefulWidget {
 }
 
 class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
-  int _iTimer = 0;
+  int _iMilisec = 0;
+  int _iSec = 0;
+  int _iMin = 0;
+  List<int> _iTimer = [0, 0, 0];
   bool counterStart = true;
 
   void runCounter(int iCounter) async {
     while (counterStart == true) {
-      await Future.delayed(const Duration(seconds: 1), () => iCounter++);
+      await Future.delayed(const Duration(milliseconds: 1), () => iCounter++);
+      _iMilisec = iCounter;
+      if (_iMilisec > 1000) {
+        iCounter = 0;
+        _iSec++;
+        if (_iSec > 60) {
+          _iSec = 0;
+          _iMin++;
+        }
+      }
       if (counterStart) {
         setState(() {
-          _iTimer = iCounter;
+          _iTimer[0] = _iMilisec;
+          _iTimer[1] = _iSec;
+          _iTimer[2] = _iMin;
         });
       }
     }
@@ -32,14 +46,18 @@ class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
   }
 
   Future<void> stopCounter() async {
-    Future.delayed(const Duration(seconds: 1), () => counterStart = false);
+    Future.delayed(
+        const Duration(milliseconds: 200), () => counterStart = false);
     setState(() {
       counterStart = false;
     });
   }
 
   void clearCounter() {
-    _iTimer = 0;
+    _iTimer = [0, 0, 0];
+    _iMilisec = 0;
+    _iSec = 0;
+    _iMin = 0;
   }
 
   @override
@@ -52,14 +70,44 @@ class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(
-                "$_iTimer",
-                style: Theme.of(context).textTheme.displayLarge,
-              ),
-              const SizedBox(width: 10),
-              Text(
-                's',
-                style: Theme.of(context).textTheme.displayLarge,
+              Row(
+                children: [
+                  SizedBox(
+                    width: 60,
+                    child: Text(
+                      "${_iTimer[2]}",
+                      style: Theme.of(context).textTheme.displayMedium,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                    child: Text(
+                      ":",
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 60,
+                    child: Text(
+                      "${_iTimer[1]}",
+                      style: Theme.of(context).textTheme.displayMedium,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                    child: Text(
+                      ":",
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 100,
+                    child: Text(
+                      "${_iTimer[0]}",
+                      style: Theme.of(context).textTheme.displayMedium,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -69,7 +117,7 @@ class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  startCounter(_iTimer);
+                  startCounter(_iTimer[0]);
                   // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   //     duration: Duration(milliseconds: 500),
                   //     content: Text("Start")));
