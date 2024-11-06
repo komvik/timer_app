@@ -16,9 +16,11 @@ class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
   void runCounter(int iCounter) async {
     while (counterStart == true) {
       await Future.delayed(const Duration(seconds: 1), () => iCounter++);
-      setState(() {
-        _iTimer = iCounter;
-      });
+      if (counterStart) {
+        setState(() {
+          _iTimer = iCounter;
+        });
+      }
     }
   }
 
@@ -29,13 +31,16 @@ class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
     });
   }
 
-  void stopCounter() {
+  Future<void> stopCounter() async {
+    Future.delayed(const Duration(seconds: 1), () => counterStart = false);
     setState(() {
       counterStart = false;
     });
   }
 
-  void clearCounter() {}
+  void clearCounter() {
+    _iTimer = 0;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +89,9 @@ class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
               const SizedBox(width: 10),
               ElevatedButton(
                 onPressed: () {
+                  stopCounter();
                   clearCounter();
+
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       duration: Duration(milliseconds: 500),
                       content: Text("Clear")));
