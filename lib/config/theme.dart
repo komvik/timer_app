@@ -14,6 +14,10 @@ ThemeData myTheme = ThemeData(
       color: timercolor,
       fontWeight: FontWeight.bold,
     ),
+    displaySmall: TextStyle(
+      fontSize: 30,
+      color: timercolor,
+    ),
     titleLarge: TextStyle(
       fontSize: 22,
       color: Colors.black,

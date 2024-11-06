@@ -66,85 +66,140 @@ class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const Text("Input Zeit"),
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Row(
-                children: [
-                  SizedBox(
-                    width: 60,
-                    child: Text(
-                      "${_iTimer[2]}",
-                      style: Theme.of(context).textTheme.displayMedium,
-                    ),
+              SizedBox(
+                width: 100,
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: "min",
+                    border: OutlineInputBorder(),
                   ),
-                  SizedBox(
-                    width: 20,
-                    child: Text(
-                      ":",
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
+                ),
+              ),
+              SizedBox(
+                width: 100,
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: "sec",
+                    border: OutlineInputBorder(),
                   ),
-                  SizedBox(
-                    width: 60,
-                    child: Text(
-                      "${_iTimer[1]}",
-                      style: Theme.of(context).textTheme.displayMedium,
-                    ),
+                ),
+              ),
+              SizedBox(
+                width: 100,
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: "ms.",
+                    border: OutlineInputBorder(),
                   ),
-                  SizedBox(
-                    width: 20,
-                    child: Text(
-                      ":",
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 100,
-                    child: Text(
-                      "${_iTimer[0]}",
-                      style: Theme.of(context).textTheme.displayMedium,
-                    ),
-                  ),
-                ],
+                ),
               ),
             ],
           ),
-          const SizedBox(height: 20),
-          Row(
+          const SizedBox(height: 100),
+          Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  startCounter(_iTimer[0]);
-                  // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  //     duration: Duration(milliseconds: 500),
-                  //     content: Text("Start")));
-                },
-                child: const Text("Start"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 65,
+                        child: Text(
+                          "${_iTimer[2]}",
+                          style: Theme.of(context).textTheme.displayMedium,
+                        ),
+                      ),
+                      Container(
+                        color: Colors.amber,
+                        child: SizedBox(
+                          width: 60,
+                          child: Text(
+                            "min.",
+                            style: Theme.of(context).textTheme.displaySmall,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 65,
+                        child: Text(
+                          "${_iTimer[1]}",
+                          style: Theme.of(context).textTheme.displayMedium,
+                        ),
+                      ),
+                      Container(
+                        color: Colors.amber,
+                        child: SizedBox(
+                          width: 60,
+                          child: Text(
+                            "sec.",
+                            style: Theme.of(context).textTheme.displaySmall,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 100,
+                        child: Text(
+                          "${_iTimer[0]}",
+                          style: Theme.of(context).textTheme.displayMedium,
+                        ),
+                      ),
+                      Container(
+                        color: Colors.amber,
+                        child: SizedBox(
+                          width: 50,
+                          child: Text(
+                            "ms.",
+                            style: Theme.of(context).textTheme.displaySmall,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              const SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: () {
-                  stopCounter();
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      duration: Duration(milliseconds: 500),
-                      content: Text("Stop")));
-                },
-                child: const Text("Stop"),
-              ),
-              const SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: () {
-                  stopCounter();
-                  clearCounter();
+              const SizedBox(height: 40),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      startCounter(_iTimer[0]);
+                      // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      //     duration: Duration(milliseconds: 500),
+                      //     content: Text("Start")));
+                    },
+                    child: const Text("Start"),
+                  ),
+                  const SizedBox(width: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      stopCounter();
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          duration: Duration(milliseconds: 500),
+                          content: Text("Stop")));
+                    },
+                    child: const Text("Stop"),
+                  ),
+                  const SizedBox(width: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      stopCounter();
+                      clearCounter();
 
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      duration: Duration(milliseconds: 500),
-                      content: Text("Clear")));
-                },
-                child: const Text("Clear"),
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          duration: Duration(milliseconds: 500),
+                          content: Text("Clear")));
+                    },
+                    child: const Text("Clear"),
+                  ),
+                ],
               ),
             ],
           ),
