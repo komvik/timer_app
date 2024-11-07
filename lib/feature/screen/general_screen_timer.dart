@@ -12,14 +12,13 @@ class GeneralScreenTimer extends StatefulWidget {
 class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
   TextEditingController secController = TextEditingController();
 
-  List<String> inputZeit = ["Timer", "CountDown"];
+  List<String> inputZeit = ["Timer", "Countdown in Millisekunden."];
   List<String> textBtnStart = ["Start Timer", "Start Coutdown"];
   List<String> textBtnStop = ["Stop Timer", "Stop Coutdown"];
   int indexSwitch = 0;
+  int decrimentCountDown = 0; //decrement number in CountDown for StopFunktion
 
 // _____ Variable for CountDown
-
-  String showSec = "sec";
 
 // ______ Variable for Timer
   int _iMilisec = 0;
@@ -56,12 +55,11 @@ class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
     setState(() {
       if (changed) {
         indexSwitch = 1;
-        showSec = secController.text;
+
         stopCounter();
         clearCounter();
       } else {
         indexSwitch = 0;
-        showSec = "sec";
       }
     });
   }
@@ -92,17 +90,51 @@ class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
   }
 
 // __________________________________ CountDown Start
-  void runCountDown() {
+  // void runCountDown() {
+  //   setState(() {
+  //     inputZeit[1] = "Start Count Down";
+  //   });
+  // }
+
+  void startCounDown(int iTimer) {
     setState(() {
-      inputZeit[1] = "Start Count Down";
+      counterStart = true;
+      runCountdown(iTimer);
     });
   }
 
+  void runCountdown(int iCounter) async {
+    while (counterStart == true && iCounter >= 0) {
+      if (iCounter <= 0) {
+        counterStart = false;
+        clearCountDown();
+        //  print("STOPP");
+        break;
+      }
+      // print("COUNTER: $iCounter");
+      await Future.delayed(const Duration(milliseconds: 1));
+      iCounter--;
+      decrimentCountDown = iCounter;
+      int miilisekundenRest = iCounter % 1000;
+      int sekundenRest = ((iCounter % 60000) / 1000).floor();
+      int minutenRest = (iCounter / 60000).floor();
+
+      // print("$minutenRest:$sekundenRest:$miilisekundenRest");
+
+      if (counterStart) {
+        setState(() {
+          _iTimer[0] = miilisekundenRest;
+          _iTimer[1] = sekundenRest;
+          _iTimer[2] = minutenRest;
+        });
+      }
+    }
+  }
 // __________________________________ CountDown Stop
 
   void stopCountDown() {
     setState(() {
-      inputZeit[1] = "Stop Count Down";
+      stopCounter();
     });
   }
 
@@ -111,7 +143,9 @@ class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
   void clearCountDown() {
     setState(() {
       secController.text = "";
-      showSec = "";
+
+      decrimentCountDown = 0;
+      clearCounter();
       secundenOnChange(false);
     });
   }
@@ -125,7 +159,10 @@ class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(inputZeit[indexSwitch]),
+          Text(
+            inputZeit[indexSwitch],
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
           const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -145,17 +182,7 @@ class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
               ),
             ],
           ),
-          //============
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 100,
-                child: Text(showSec),
-              ),
-            ],
-          ),
+
           //===========
           const SizedBox(height: 100),
           Column(
@@ -176,7 +203,7 @@ class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
                       Container(
                         color: Colors.amber,
                         child: SizedBox(
-                          width: 60,
+                          width: 50,
                           child: Text(
                             "min.",
                             style: Theme.of(context).textTheme.displaySmall,
@@ -184,7 +211,7 @@ class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
                         ),
                       ),
                       SizedBox(
-                        width: 65,
+                        width: 70,
                         child: Text(
                           "${_iTimer[1]}",
                           style: Theme.of(context).textTheme.displayMedium,
@@ -193,7 +220,7 @@ class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
                       Container(
                         color: Colors.amber,
                         child: SizedBox(
-                          width: 60,
+                          width: 50,
                           child: Text(
                             "sec.",
                             style: Theme.of(context).textTheme.displaySmall,
@@ -201,7 +228,7 @@ class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
                         ),
                       ),
                       SizedBox(
-                        width: 100,
+                        width: 110,
                         child: Text(
                           "${_iTimer[0]}",
                           style: Theme.of(context).textTheme.displayMedium,
@@ -210,7 +237,7 @@ class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
                       Container(
                         color: Colors.amber,
                         child: SizedBox(
-                          width: 50,
+                          width: 45,
                           child: Text(
                             "ms.",
                             style: Theme.of(context).textTheme.displaySmall,
@@ -232,7 +259,11 @@ class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
                         // ScaffoldMessenger.of(context).showSnackBar(
                         // const SnackBar( duration: Duration(milliseconds: 500), content: Text("Start")));
                       } else {
-                        runCountDown();
+                        if (decrimentCountDown != 0) {
+                          startCounDown(decrimentCountDown);
+                        } else {
+                          startCounDown(int.parse(secController.text));
+                        }
                       }
                     },
                     child: Text(textBtnStart[indexSwitch]),
