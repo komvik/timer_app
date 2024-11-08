@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:timer_app/feature/widget/lettering_widget.dart';
 
 class GeneralScreenTimer extends StatefulWidget {
   const GeneralScreenTimer({
@@ -27,6 +28,7 @@ class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
   List<int> _iTimer = [0, 0, 0];
   bool counterStart = true;
 
+// FUTURE ___________________________ runCounter
   void runCounter(int iCounter) async {
     while (counterStart == true) {
       await Future.delayed(const Duration(milliseconds: 1), () => iCounter++);
@@ -50,59 +52,7 @@ class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
     }
   }
 
-// ___________________________________ OnChange
-  secundenOnChange(bool changed) {
-    setState(() {
-      if (changed) {
-        indexSwitch = 1;
-
-        stopCounter();
-        clearCounter();
-      } else {
-        indexSwitch = 0;
-      }
-    });
-  }
-
-// __________________________________ Timer Start
-  void startCounter(int iTimer) {
-    setState(() {
-      counterStart = true;
-      runCounter(iTimer);
-    });
-  }
-
-// __________________________________ Timer Stop
-  Future<void> stopCounter() async {
-    Future.delayed(
-        const Duration(milliseconds: 200), () => counterStart = false);
-    setState(() {
-      counterStart = false;
-    });
-  }
-
-// __________________________________ Timer Clear
-  void clearCounter() {
-    _iTimer = [0, 0, 0];
-    _iMilisec = 0;
-    _iSec = 0;
-    _iMin = 0;
-  }
-
-// __________________________________ CountDown Start
-  // void runCountDown() {
-  //   setState(() {
-  //     inputZeit[1] = "Start Count Down";
-  //   });
-  // }
-
-  void startCounDown(int iTimer) {
-    setState(() {
-      counterStart = true;
-      runCountdown(iTimer);
-    });
-  }
-
+// FUTURE ___________________________ runCountDown
   void runCountdown(int iCounter) async {
     while (counterStart == true && iCounter >= 0) {
       if (iCounter <= 0) {
@@ -130,8 +80,55 @@ class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
       }
     }
   }
-// __________________________________ CountDown Stop
 
+// ___________________________________ OnChange
+  secundenOnChange(bool changed) {
+    setState(() {
+      if (changed) {
+        indexSwitch = 1;
+
+        stopCounter();
+        clearCounter();
+      } else {
+        indexSwitch = 0;
+      }
+    });
+  }
+
+// __________________________________ Timer Start
+  void startCounter(int iTimer) {
+    setState(() {
+      counterStart = true;
+      runCounter(iTimer);
+    });
+  }
+
+// FUTURE ___________________________ Timer Stop
+  Future<void> stopCounter() async {
+    Future.delayed(
+        const Duration(milliseconds: 200), () => counterStart = false);
+    setState(() {
+      counterStart = false;
+    });
+  }
+
+// __________________________________ Timer Clear
+  void clearCounter() {
+    _iTimer = [0, 0, 0];
+    _iMilisec = 0;
+    _iSec = 0;
+    _iMin = 0;
+  }
+
+// __________________________________ CountDown Start
+  void startCounDown(int iTimer) {
+    setState(() {
+      counterStart = true;
+      runCountdown(iTimer);
+    });
+  }
+
+// __________________________________ CountDown Stop
   void stopCountDown() {
     setState(() {
       stopCounter();
@@ -139,7 +136,6 @@ class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
   }
 
 // __________________________________ CountDown Clear
-
   void clearCountDown() {
     setState(() {
       secController.text = "";
@@ -164,23 +160,18 @@ class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 100,
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  controller: secController,
-                  onChanged: (text) {
-                    secundenOnChange(text.isNotEmpty);
-                  },
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                  ),
-                ),
+          SizedBox(
+            width: 150,
+            child: TextFormField(
+              keyboardType: TextInputType.number,
+              controller: secController,
+              onChanged: (text) {
+                secundenOnChange(text.isNotEmpty);
+              },
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
               ),
-            ],
+            ),
           ),
 
           //===========
@@ -200,16 +191,7 @@ class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
                           style: Theme.of(context).textTheme.displayMedium,
                         ),
                       ),
-                      Container(
-                        color: Colors.amber,
-                        child: SizedBox(
-                          width: 50,
-                          child: Text(
-                            "min.",
-                            style: Theme.of(context).textTheme.displaySmall,
-                          ),
-                        ),
-                      ),
+                      const LetteringWidget(chr: "min."),
                       SizedBox(
                         width: 70,
                         child: Text(
@@ -217,16 +199,7 @@ class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
                           style: Theme.of(context).textTheme.displayMedium,
                         ),
                       ),
-                      Container(
-                        color: Colors.amber,
-                        child: SizedBox(
-                          width: 50,
-                          child: Text(
-                            "sec.",
-                            style: Theme.of(context).textTheme.displaySmall,
-                          ),
-                        ),
-                      ),
+                      const LetteringWidget(chr: "sec."),
                       SizedBox(
                         width: 110,
                         child: Text(
@@ -234,16 +207,7 @@ class _GeneralScreenTimerState extends State<GeneralScreenTimer> {
                           style: Theme.of(context).textTheme.displayMedium,
                         ),
                       ),
-                      Container(
-                        color: Colors.amber,
-                        child: SizedBox(
-                          width: 45,
-                          child: Text(
-                            "ms.",
-                            style: Theme.of(context).textTheme.displaySmall,
-                          ),
-                        ),
-                      ),
+                      const LetteringWidget(chr: "ms."),
                     ],
                   ),
                 ],
